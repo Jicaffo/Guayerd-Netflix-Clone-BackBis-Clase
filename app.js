@@ -8,6 +8,7 @@ const mongoConnect = require("./config/config");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const mediaRouter = require("./routes/media");
+const authRouter = require("./routes/auth");
 
 const app = express();
 mongoConnect();
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/media", mediaRouter)
+app.use("/media", mediaRouter);
+app.use("/auth", authRouter);
 
 module.exports = app;
