@@ -1,4 +1,5 @@
 const express = require("express");
+const { route } = require("express/lib/router");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
 
@@ -20,5 +21,9 @@ router.post(
   verificarRegistro.checkEmail,
   userController.save
 );
+router.put('/:id', authJWT.verificarToken, userController.updateUser)
 
+//realizar  el metodo patch para el password = crear un middleware que verifque que el correo exista en la plataforma
+router.delete("/:id",userController.deleteUser)
 module.exports = router;
+

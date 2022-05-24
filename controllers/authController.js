@@ -1,7 +1,12 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("../middlewares/nodemailer");
+const envio = require("../utils/sendEmail");
 const dotenv = require("dotenv");
 dotenv.config();
+
+
+const enlace = process.env.ENLACE;
 
 const register = async (req, res) => {
   const { name, lastName, email, password } = req.body;
@@ -18,10 +23,14 @@ const register = async (req, res) => {
       });
       const newUser = await user.save();
       //res.status(201).json({ msg: "Usuario creado" });
+
+      //Envio de correo ;e paso los parámetros
+      envio.enviaMail(newUser.email, newUser.name, enlace);
+      
       console.log(newUser);
-      //revisar
+    
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: 86400,//24hs
+        expiresIn: 86400, //24hs
       });
       res.status(201).json({ newUser, token });
     }
